@@ -120,4 +120,4 @@ class WebDriver(WebBase):
             self.driver.get(url)
             self.wait_interactive_ready_state()
         except Exception as e:
-            raise TimeoutError(f"Страница {url} не загрузилась!{os.linesep}{str(e)}")
+            raise TimeoutError(f"Страница {url} не загрузилась!") from e
