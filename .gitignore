@@ -1,0 +1,33 @@
+# Temporary files
+__pycache__
+.pytest_cache
+__MACOSX
+.DS_Store
+
+# Environment
+venv/
+devenv/
+*.exe
+
+# Config
+config.local.json
+selenoid
+*backup*
+
+# IDE files
+.idea
+.vscode
+
+# Other files
+share/
+DOC/
+temp/
+TMP/
+samples/
+video/
+screenshots/
+Logs/
+logs/
+*.log
+*_Selenium4.py
+requirements_full.txt

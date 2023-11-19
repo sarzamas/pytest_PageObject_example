@@ -1,0 +1,14 @@
+---
+LoginScreen:
+    TEXT_ERROR_LOGIN_INVALID: (3) Неверный логин или пароль
+    TEXT_ITEM_LANG_RUSSIAN: русский
+    TEXT_TITLE_ERROR_LABEL: Ошибка!
+    TEXT_TITLE_POPUP_LOGIN: Вход в систему
+    TEXT_TITLE_POPUP_NEW_PSW: Новый пароль
+    TEXT_TITLE_TAB_PAGE: Loading...
+    TEXT_TITLE_WARNING: 'Предупреждение:'
+    TEXT_WARNING_PASSWORD_NEW: Необходимо изменить пароль
+    TEXT_WARNING_PSW_MISMATCH: Пароли не совпадают
+
+MainMenuToolbar:
+    TEXT_TITLE_TAB_PAGE: SAYMON

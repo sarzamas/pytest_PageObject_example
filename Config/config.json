@@ -1,0 +1,40 @@
+{
+    "browser": {
+        "base_url": null,
+        "browser_name": "",
+        "chrome": {
+            "binary_path": null,
+            "driver_path": null,
+            "log_path": null
+        },
+        "firefox": {
+            "binary_path": "",
+            "driver_path": "",
+            "log_path": null
+        },
+        "headless": false,
+        "selenoid": {
+            "executor_id": null,
+            "selenoid_url": null,
+            "use_selenoid": false
+        },
+        "window": {
+            "maximize": false,
+            "size": {
+                "height": 1080,
+                "width": 1920
+            }
+        }
+    },
+    "locale": {
+        "allow_yaml_tags": false
+    },
+    "saymon": {
+        "users": {
+            "admin_user": {
+                "login": "admin",
+                "password": ""
+            }
+        }
+    }
+}
