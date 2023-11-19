@@ -88,14 +88,14 @@ class WebDriver(WebBase):
         """
         Создает удаленный экземпляр webdriver (в selenoid) для управления браузером
         """
-        config = self.config.browser_config
+        config = self.config.browser
         if config.browser_name == 'firefox':
             options = webdriver.FirefoxOptions()
             options.headless = config.headless
             capabilities = options.to_capabilities()
             capabilities['sessionTimeout'] = "5m"
-            name = "Браузер зарезервирован {0} для теста: {1}".format(config.executor_id, name) if name \
-                else config.executor_id + ' ' + str(uuid4())
+            name = (f"Браузер зарезервирован {config.selenoid.executor_id} для теста: "
+                    f"{name if name else config.selenoid.executor_id + ' ' + str(uuid4())}")
             capabilities['name'] = name
             capabilities['pageLoadStrategy'] = "eager"
             capabilities['acceptSslCerts'] = True
@@ -119,5 +119,5 @@ class WebDriver(WebBase):
         try:
             self.driver.get(url)
             self.wait_interactive_ready_state()
-        except Exception:
-            raise Exception(f"Страница {url} не загрузилась!")
+        except Exception as e:
+            raise TimeoutError(f"Страница {url} не загрузилась!{os.linesep}{str(e)}")

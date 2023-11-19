@@ -55,8 +55,8 @@ class WebElement(WebBase):
         assert element, "Не найден ожидаемый элемент."
         text = str(text)
         real_text = str(element.text)
-        assert text == real_text, "Текст элемента не соответствует ожидаемому. " \
-                                  "Ожидаемый текст: %s Имеющийся текст: %s" % (text, real_text)
+        assert text == real_text, (f"Текст элемента не соответствует ожидаемому. Ожидаемый текст: {text} Имеющийся "
+                                   f"текст: {real_text}")
         return self
 
     def verify_value(self, value, timeout=5):
@@ -67,12 +67,13 @@ class WebElement(WebBase):
         assert element, "Не найден ожидаемый элемент."
         value = str(value)
         real_value = None
-        for i in range(timeout):
+        for _ in range(timeout):
+            sleep(1)
             real_value = str(element.get_attribute('value'))
         if value == real_value:
             return self
-        assert value == real_value, "value элемента не соответствует ожидаемому. " \
-                                    "Ожидаемый value: %s Имеющийся value: %s" % (value, real_value)
+        assert value == real_value, (f"value элемента не соответствует ожидаемому. "
+                                     f"Ожидаемый value: {value} Имеющийся value: {real_value}")
         return self
 
     def is_disabled(self) -> bool:
@@ -82,4 +83,4 @@ class WebElement(WebBase):
          - атрибут элемента `class` на наличие класса с текстом 'disabled'
         :return: bool
         """
-        return True if self.elem.get_attribute("disabled") or 'disabled' in self.elem.get_attribute("class") else False
+        return bool(any([self.elem.get_attribute('disabled'), 'disabled' in self.elem.get_attribute('class')]))

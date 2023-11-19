@@ -30,15 +30,16 @@ class MainMenuToolbar(BaseMethods, ABC):
         super().__init__(driver)
         self.__driver = driver
         """:type WebDriver.WebDriver.WebDriver"""
-        self.__locale = None
-        """:type Locales.Locale"""
         self.SELECTORS = self.SELECTORS | dict(zip(self.LOCALES, self.LOCALES))
 
     def to_login_screen(self):
         return LoginScreen(self.__driver)
 
     def logout(self):
+        logout = self.to_login_screen()
+        if logout.check_page_title_exists(logout.locale[logout.SELECTORS['TEXT_TITLE_TAB_PAGE']],
+                                          timeout=0.5, alert=False):
+            return
         self.click_on_element(self.SELECTORS['TOGGLE_DROPDOWN_USER'])
         self.dropdown_item_select(self.SELECTORS['ITEM_USER_EXIT'])
-        logout = self.to_login_screen()
         logout.check_page_title_exists(logout.locale[logout.SELECTORS['TEXT_TITLE_TAB_PAGE']])

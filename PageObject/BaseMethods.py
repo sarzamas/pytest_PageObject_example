@@ -3,12 +3,12 @@ from abc import abstractmethod
 from time import sleep
 from typing import Optional
 
-import WebDriver.WebDriver
-
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver import ActionChains
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
+
+import WebDriver.WebDriver
 
 import Locales
 from Utils import lookup_report
@@ -98,9 +98,9 @@ class BaseMethods:
             'timeout': "",
         }
 
-        for key in kwargs:
+        for key, value in kwargs.items():
             if key == 'name':
-                params['name'] = kwargs[key]
+                params['name'] = value
             elif key == 'text':
                 params['param'] = key
                 prefix1 = "c текстом"
@@ -110,13 +110,13 @@ class BaseMethods:
                 prefix1 = "c селектором"
                 prefix2 = "-\tне найден"
             elif key == 'disabled':
-                if kwargs['disabled']:
+                if value:
                     prefix2 = f"{prefix2} в статусе `disabled`: True"
             elif key == 'enabled':
-                if kwargs['enabled']:
+                if value:
                     prefix2 = f"{prefix2} в статусе `enabled`: True"
             elif key == 'timeout':
-                prefix2 = f"-\tне исчез за {kwargs[key]} секунд"
+                prefix2 = f"-\tне исчез за {value} секунд"
             else:
                 raise NameError(
                     f"{os.linesep}{' ! ОШИБКА В ПАРАМЕТРЕ ! ':*^145}{os.linesep}* PageObject `{page}`: "
@@ -228,7 +228,7 @@ class BaseMethods:
         actions.click().perform()
 
     def wait_for_element_is_visible(self, element=None, selector_name=None, selector_value=None, obj=None,
-                                    timeout=MAX_WAIT_TIME) -> WebDriver.WebDriver.WebDriver:
+                                    timeout=MAX_WAIT_TIME) -> WebDriver:
         """
         Ждать, когда указанный элемент станет видимым на странице
         :return: element: WebElement !!! АКТУАЛЬНЫЙ ТОЛЬКО ДО СЛЕДУЮЩЕГО ДЕЙСТВИЯ C DOM !!!
@@ -330,13 +330,14 @@ class BaseMethods:
         assert element, self.alert(name=selector_name, selector=selector)
 
         result: Optional[bool] = None
-        if (enabled and disabled) or (not enabled and not disabled):
+        if all([enabled, disabled]) or all([not enabled, not disabled]):
             raise LookupError(
-                f"* PageObject: `{self.__class__.__name__}`: Вызываемый метод предусматривает обязательное наличие на "
-                f"входе ОДНОГО и только ОДНОГО правила валидации.{os.linesep}* Получено же в параметрах вызова: "
-                f"(enabled={enabled}, disabled={disabled}){lookup_report()}"
+                f"{os.linesep}* PageObject: `{self.__class__.__name__}`: "
+                f"Вызываемый метод предусматривает обязательное наличие на входе ОДНОГО и только ОДНОГО правила "
+                f"валидации.{os.linesep}* Получено же в параметрах вызова: (enabled={enabled}, disabled={disabled})"
+                f"{lookup_report()}"
             )
-        elif enabled:
+        if enabled:
             result = not element.is_disabled()
         elif disabled:
             result = element.is_disabled()

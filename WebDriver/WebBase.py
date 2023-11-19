@@ -12,7 +12,7 @@ TIMEOUT_STEP = 0.5
 MAX_TIMEOUT = 5
 
 
-class WebBase(object):
+class WebBase:
     """type: selenium.webdriver.remote.webelement.WebElement """
 
     def __init__(self):
@@ -129,10 +129,7 @@ class WebBase(object):
         def _interactive_ready_state(driver):
             sleep(TIMEOUT_STEP)
             ready_state = driver.execute_script("return document.readyState")
-            if any(["interactive", "complete"]) in ready_state:
-                return True
-            else:
-                return False
+            return bool(any(["interactive", "complete"]) in ready_state)
 
         try:
             WebDriverWait(self.driver, timeout=MAX_TIMEOUT).until(
@@ -199,14 +196,14 @@ class WebBase(object):
         """
         elements = self.find_elements_by_css_selector(table_items, timeout)
         if check_elements:
-            assert elements, "Не найдены элементы таблицы по селектору '{}'".format(table_items)
+            assert elements, f"Не найдены элементы таблицы по селектору `{table_items}`"
 
         for el in elements:
             el_text = el.text if match_case else el.text.lower()
             text = text if match_case else text.lower()
             if match_words and text == el_text:
                 return el
-            elif not match_words and text in el_text:
+            if not match_words and text in el_text:
                 return el
 
         return None
@@ -218,7 +215,7 @@ class WebBase(object):
         """
         if not element:
             if not self.elem:
-                raise Exception("Не передан элемент для наведения курсора")
+                raise TypeError("Не передан элемент для наведения курсора")
             element = self
         if isinstance(element, list):
             element = element[0]

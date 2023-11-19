@@ -50,12 +50,9 @@ class PopUp:
         for key, value in popup_type_data.items():
             if key in self.__slots__:
                 setattr(self, key, value)
-
         self.__driver = driver
         """:type WebDriver.WebDriver.WebDriver"""
-
-        popup = self.__driver.find_element_by_css_selector(self.MAIN_CONTAINER)
-        self.is_exist = True if popup else False
+        self.is_exist = bool(self.__driver.find_element_by_css_selector(self.MAIN_CONTAINER))
 
     def fill_input_field(self, name):
         """
