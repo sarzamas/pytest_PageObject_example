@@ -1,13 +1,12 @@
 from abc import ABC
 
-from Config import Config
 from PageObject.BaseMethods import BaseMethods
 from Utils.DotDict import DotDict
 
 
 class LoginScreen(BaseMethods, ABC):
     """
-    Класс, содержащий ключи локализации, селекторы и унаследованные методы, используемые на странице авторизации
+    Класс, содержащий ключи локализации, селекторы и методы, используемые на странице авторизации
     """
     # <editor-fold desc="CONSTANTS">
     LOCALES = [
@@ -50,11 +49,11 @@ class LoginScreen(BaseMethods, ABC):
     }
 
     # </editor-fold desc="Constants">
-    def __init__(self, driver, locale) -> None:
+    def __init__(self, driver) -> None:
         super().__init__(driver)
         self.__driver = driver
         """:type WebDriver.WebDriver.WebDriver"""
-        self.__locale = locale(Config.os_language)
+        self.__locale = None
         """:type Locales.Locale"""
         self.SELECTORS = self.SELECTORS | dict(zip(self.LOCALES, self.LOCALES))
 
@@ -83,13 +82,14 @@ class LoginScreen(BaseMethods, ABC):
         preconditions:
         - Осуществляет `ВХОД` в SAYMON UI как администратор с учетными данными из config.json
         """
-        self.verify_page_title_exists(self.locale[self.SELECTORS['TEXT_TITLE_TAB_PAGE']])
+        self.check_page_title_exists(self.locale[self.SELECTORS['TEXT_TITLE_TAB_PAGE']])
         self.check_element_label_text(self.SELECTORS['TITLE_POPUP_LOGIN'],
                                       self.locale[self.SELECTORS['TEXT_TITLE_POPUP_LOGIN']])
         self.fill_text_input_field(self.SELECTORS['INPUT_FIELD_LOGIN'], user.login)
         self.fill_text_input_field(self.SELECTORS['INPUT_FIELD_PASSWORD'], user.password)
         self.click_on_element(self.SELECTORS['BUTTON_LOGIN'])
-        if self.verify_page_title_exists(self.locale[self.SELECTORS['TEXT_TITLE_TAB_PAGE']], timeout=1):
+        if self.check_page_title_exists(
+                self.locale[self.SELECTORS['TEXT_TITLE_TAB_PAGE']], timeout=1, delay=0.5, alert=False):
             self.new_installation_setup(user.password)
 
     def new_installation_setup(self, password: str) -> None:
@@ -118,4 +118,4 @@ class LoginScreen(BaseMethods, ABC):
                                       self.locale[self.SELECTORS['TEXT_WARNING_PSW_MISMATCH']])
         self.fill_text_input_field(self.SELECTORS['INPUT_FIELD_CONFIRM_PSW'], password, typing_speed_delay=False)
         self.verify_element_availability(self.SELECTORS['BUTTON_SAVE'], enabled=True)
-        # self.click_on_element(self.SELECTORS['BUTTON_SAVE'])
+        self.click_on_element(self.SELECTORS['BUTTON_SAVE'])

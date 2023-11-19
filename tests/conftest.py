@@ -26,18 +26,18 @@ def preconditions_teardown(config, driver, locale, page_object):
         login.set_ui_language(language)
         login.login(config.saymon_admin_user)
 
-    return _preconditions_teardown
+    yield _preconditions_teardown
+
+    page_object.main_menu_toolbar.logout()
 
 
 @pytest.fixture(scope='session')
-def config():
+def config() -> Config:
     """
     Фикстура инициализации Config
     :return: DotDict: словарь с конфигурационными данными
     """
-    config = Config()
-
-    return config
+    return Config()
 
 
 @pytest.fixture(scope='class')
@@ -47,16 +47,15 @@ def locale():
     :return: DotDict: словарь с локализованными текстами
     """
 
-    def _locale(lang):
+    def _locale(lang: property | str) -> Locale:
         allow_tags = None if isinstance(lang, property) else Config().allow_yaml_tags
-        locale = Locale(lang, allow_tags=allow_tags)
-        return locale
+        return Locale(lang, allow_tags=allow_tags)
 
     return _locale
 
 
 @pytest.fixture(scope='class')
-def driver(config):
+def driver(config: Config) -> WebDriver:
     """ Фикстура инициализации и закрытия WebDriver """
     webdriver = WebDriver(config)
 
@@ -66,7 +65,6 @@ def driver(config):
 
 
 @pytest.fixture(scope='class')
-def page_object(driver, locale):
+def page_object(driver: WebDriver) -> PageObject:
     """ Фикстура инициализации PageObject """
-
-    return PageObject(driver, locale)
+    return PageObject(driver)

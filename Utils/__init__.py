@@ -3,6 +3,8 @@ import inspect
 import json
 import locale
 import os
+from typing import Optional
+
 import yaml
 
 PROJECT_PATH = os.path.split(os.path.dirname(__file__))[0]
@@ -34,11 +36,11 @@ def os_locale() -> str:
         lang = locale.windows_locale[windll.GetUserDefaultUILanguage()][:2]
     else:
         raise NotImplementedError("Неизвестная ОС")
-    print(f"{os.linesep}OS type:\t{os.name}")
+    print(f"{os.linesep}{'*' * 80}{os.linesep * 2}OS type:\t{os.name}")
     return lang
 
 
-def read_locale_file(lang: property | str, allow_tags: property | bool | None) -> dict:
+def read_locale_file(lang: property | str, allow_tags: Optional[property | bool] = None) -> dict:
     """
     Функция проверки наличия и чтения файла локализации
     :param lang: str: язык интерфейса SAYMON UI
@@ -65,7 +67,7 @@ def read_locale_file(lang: property | str, allow_tags: property | bool | None) -
     return locale_data
 
 
-def read_file(file_path: str, decoder: str, yaml_tags=None) -> dict:
+def read_file(file_path: str, decoder: str, yaml_tags: Optional[bool] = None) -> dict:
     """
     Функция чтения данных их файла в словарь
     :param file_path: str: путь к файлу на диске

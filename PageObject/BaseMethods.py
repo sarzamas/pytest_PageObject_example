@@ -1,5 +1,6 @@
 import os
 from abc import abstractmethod
+from time import sleep
 from typing import Optional
 
 import WebDriver.WebDriver
@@ -34,6 +35,7 @@ class BaseMethods:
         """:type WebDriver.WebDriver.WebDriver"""
         self.__locale = None
         """:type Locales.Locale"""
+
     @classmethod
     def get_all_subclasses(cls) -> iter:
         """
@@ -266,7 +268,7 @@ class BaseMethods:
         element = self.__driver.find_element_by_css_selector(selector, timeout=timeout)
 
         result = WebDriverWait(self.__driver, timeout).until(
-                ec.staleness_of(element), message=self.alert(name=selector_name, selector=selector, timeout=timeout))
+            ec.staleness_of(element), message=self.alert(name=selector_name, selector=selector, timeout=timeout))
         return result
 
     def select_checkbox_by_text(self, label_selector: str, checkbox_selector: str, text: str) -> None:
@@ -282,23 +284,30 @@ class BaseMethods:
             if text in item.text:
                 checkbox.click()
 
-    def verify_page_title_exists(self, contains_text: str, timeout=MAX_WAIT_TIME) -> bool:
+    def check_page_title_exists(self, contains_text: str, timeout=MAX_WAIT_TIME, delay: Optional[int | float] = None,
+                                alert: bool = True) -> bool:
         """
-        Метод проверки `Title` заголовка закладки страницы браузера на `ContainsText`
+        Метод проверки `PageTitle` заголовка закладки страницы браузера на `ContainsText`
          (или ждать его появления по `Timeout`)
         :param contains_text: str: значение поисковой фразы
-        :param timeout: int: время ожидания (сек)
-        :return: result: bool
+        :param timeout: int | float: время ожидания появления заголовка (сек)
+        :param delay: int | float: интервал времени до начала проверки (сек)
+        :param alert: bool: вызывать/не вызывать AssertionError при отсутствии совпадения
+        :return: result: bool или AssertionError
         """
         text_name = self.get_name(contains_text)
         result = False
+        sleep(delay) if delay else None
+
         try:
-            result = WebDriverWait(self.__driver, timeout).until(ec.title_contains(contains_text))
+            result = WebDriverWait(self.__driver, timeout).until(
+                ec.title_contains(contains_text),
+                message=f"INFO:\tОжидание страницы по адресу {self.__driver.current_url} с PageTitle: `{contains_text}`"
+                        f" превысило отведенное время: {timeout} сек")
         except TimeoutException as e:
-            print(TimeoutException(f"Ожидание страницы по адресу {self.__driver.current_url} "
-                                   f"с заголовком `{contains_text}` "
-                                   f"превысило отведенное время: {timeout} секунд{os.linesep}{str(e)}"))
-        assert result, self.alert(name=text_name, text=contains_text)
+            print(str(e))
+        if alert:
+            assert result, self.alert(name=text_name, text=contains_text)
 
         return result
 

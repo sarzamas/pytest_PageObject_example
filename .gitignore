@@ -29,5 +29,5 @@ screenshots/
 Logs/
 logs/
 *.log
-*_Selenium4.py
 requirements_full.txt
+github.txt

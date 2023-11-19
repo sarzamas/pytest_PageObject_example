@@ -7,9 +7,9 @@ class PageObject:
     Класс реализующий паттерн PageObject
     """
 
-    def __init__(self, driver, locale):
-        self.__login_screen = LoginScreen(driver, locale)
-        self.__main_menu_toolbar = MainMenuToolbar(driver, locale)
+    def __init__(self, driver):
+        self.__login_screen = LoginScreen(driver)
+        self.__main_menu_toolbar = MainMenuToolbar(driver)
 
     @property
     def login_screen(self) -> LoginScreen:

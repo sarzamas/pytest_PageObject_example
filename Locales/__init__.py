@@ -65,5 +65,6 @@ class Locale(DotDict):
                         raise KeyError(prefix, lookup_report())
             page.locale = self.get(page.__name__)
 
-        print(f"OS Locale:\t{Config(update_file=True).os_language}{os.linesep}UI Locale:\t{lang}")
+        print(f"OS Locale:\t{Config(update_file=True).os_language}{os.linesep}"
+              f"UI Locale:\t{lang}{os.linesep * 2}{'*' * 80}")
         self.__write_locale()

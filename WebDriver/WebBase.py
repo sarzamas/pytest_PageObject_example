@@ -1,3 +1,4 @@
+import os
 from time import sleep
 
 from selenium.common.exceptions import NoSuchWindowException, UnexpectedAlertPresentException, WebDriverException, \
@@ -58,8 +59,8 @@ class WebBase(object):
         try:
             return WebElement(
                 wait.until(_expected_condition,
-                           message=f"INFO: На странице с PageTitle: `{driver.title}` WebElement с селектором `{value}` "
-                                   f"не найден за {timeout} сек"), driver
+                           message=f"INFO:\tНа странице с PageTitle: `{driver.title}` WebElement с селектором `{value}`"
+                                   f" не найден за {timeout} сек"), driver
             )
 
         except TimeoutException as e:
@@ -111,7 +112,7 @@ class WebBase(object):
             ret_results = []
             elements = wait.until(
                 _expected_condition,
-                message=f"INFO: На странице с PageTitle: `{driver.title}` WebElement с селектором `{value}` "
+                message=f"INFO:\tНа странице с PageTitle: `{driver.title}` WebElement с селектором `{value}` "
                         f"не найден за {timeout} сек")
             for element in elements:
                 ret_results.append(WebElement(element, driver))
@@ -135,7 +136,9 @@ class WebBase(object):
 
         try:
             WebDriverWait(self.driver, timeout=MAX_TIMEOUT).until(
-                _interactive_ready_state, message=f"Страница не загрузилась за {MAX_TIMEOUT} секунд"
+                _interactive_ready_state,
+                message=f"ERROR:\tСтраница с PageTitle: `{self.driver.title}` "
+                        f"не загрузилась за {MAX_TIMEOUT} сек{os.linesep}"
             )
 
         except (NoSuchWindowException, UnexpectedAlertPresentException, WebDriverException, TypeError):
