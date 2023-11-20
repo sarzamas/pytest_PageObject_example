@@ -8,9 +8,8 @@ from selenium.webdriver import ActionChains
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
 
-import WebDriver.WebDriver
-
 import Locales
+import WebDriver.WebDriver
 from Utils import lookup_report
 from Utils.DotDict import DotDict
 

@@ -1,8 +1,11 @@
 import os
 from time import sleep
 
-from selenium.common.exceptions import NoSuchWindowException, UnexpectedAlertPresentException, WebDriverException, \
-    NoSuchElementException, TimeoutException
+from selenium.common.exceptions import (NoSuchElementException,
+                                        NoSuchWindowException,
+                                        TimeoutException,
+                                        UnexpectedAlertPresentException,
+                                        WebDriverException)
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as ec
@@ -24,7 +27,7 @@ class WebBase:
         """
         Кастомная обертка методов поиска WebElement с поддержкой таймаутов и поиска невидимых элементов
         """
-        from WebDriver.WebElement import WebElement
+        from WebDriver.WebElement import WebElement  # isort:skip
         driver = self.driver if not isinstance(self, WebElement) else self.elem
 
         if not isinstance(self, WebElement):
@@ -72,7 +75,7 @@ class WebBase:
         """
         Кастомная обертка методов поиска WebElements с поддержкой таймаутов и поиска невидимых элементов
         """
-        from WebDriver.WebElement import WebElement
+        from WebDriver.WebElement import WebElement  # isort:skip
         driver = self.driver if not isinstance(self, WebElement) else self.elem
 
         if not isinstance(self, WebElement):

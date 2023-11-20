@@ -1,7 +1,7 @@
 import json
 import os
 
-from Utils import read_file, os_locale
+from Utils import os_locale, read_file
 from Utils.DotDict import DotDict
 
 

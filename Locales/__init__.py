@@ -1,11 +1,11 @@
-import os
 import json
+import os
+
 import yaml
 
 from Config import Config
 from PageObject.BaseMethods import BaseMethods
-
-from Utils import LOCALES_PATH, read_locale_file, lookup_report
+from Utils import LOCALES_PATH, lookup_report, read_locale_file
 from Utils.DotDict import DotDict
 
 
