@@ -30,9 +30,9 @@ class Locale(DotDict):
         """
         json_path = os.path.join(LOCALES_PATH, "locale_backup.json")
         yaml_path = os.path.join(LOCALES_PATH, "locale_backup.yaml")
-        with open(json_path, 'w') as file:
+        with open(json_path, 'w', encoding='UTF-8') as file:
             file.write(json.dumps(self, indent=4, sort_keys=True, ensure_ascii=False))
-        with open(yaml_path, 'w') as file:
+        with open(yaml_path, 'w', encoding='UTF-8') as file:
             file.write(yaml.dump(self, indent=4, sort_keys=True, allow_unicode=True, default_flow_style=False))
 
     def update_locale(self, lang: str) -> None:
@@ -47,7 +47,7 @@ class Locale(DotDict):
             raise KeyError(prefix, lookup_report())
 
         page_objects = list(BaseMethods.get_all_subclasses())
-        if not any([self.get(page.__name__) for page in page_objects]):
+        if not any(self.get(page.__name__) for page in page_objects):
             prefix = (f"{prefix}обнаружен  !tag:{os.linesep}*\tПри отсутствии флага разрешения использования тэгов в "
                       f"файле конфигурации {Config().config_path} - импорт данных локализации заблокирован "
                       f"{os.linesep}{'*' * 145}{os.linesep}*\t!!!ВНИМАНИЕ!!! - потенциальная уязвимость -\t"

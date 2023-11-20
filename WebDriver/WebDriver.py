@@ -107,10 +107,9 @@ class WebDriver(WebBase):
                 driver.maximize_window()
             else:
                 driver.set_window_size(config.window.size.width, config.window.size.height)
-
             return driver
-        else:
-            raise NotImplementedError("Браузер не поддерживается")
+
+        raise NotImplementedError("Браузер не поддерживается")
 
     def open_page(self, url):
         """

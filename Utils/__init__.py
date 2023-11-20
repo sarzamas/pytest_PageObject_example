@@ -47,7 +47,7 @@ def read_locale_file(lang: property | str, allow_tags: Optional[property | bool]
     :param allow_tags: bool: запрет/разрешение наличия tags в yaml файле (потенциальная уязвимость)
     :return: locale_data: dict:
     """
-    if any([isinstance(param, property) for param in [lang, allow_tags]]):
+    if any(isinstance(param, property) for param in [lang, allow_tags]):
         locale_data = {}
     else:
         locale_file_path = None

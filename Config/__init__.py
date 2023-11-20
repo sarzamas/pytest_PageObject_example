@@ -62,5 +62,5 @@ class Config(DotDict):
         """
         Метод перезаписывает содержимое конфига в json файл определяющий конфиг
         """
-        with open(self.__config_path, 'w') as file:
+        with open(self.__config_path, 'w', encoding='UTF-8') as file:
             file.write(json.dumps(self, indent=4, sort_keys=True))
