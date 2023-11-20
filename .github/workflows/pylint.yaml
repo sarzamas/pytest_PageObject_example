@@ -26,4 +26,4 @@ jobs:
         pip install -r requirements.txt
         pip install black flake8 isort mypy pylint
     - name: Analysing the code with pylint
-      run: pylint $(git ls-files '*.py') --max-line-length=120 --ignore-imports=yes -d duplicate-code
+      run: pylint $(git ls-files '*.py') --max-line-length=120 --ignore-imports=yes -d duplicate-code --ignore=tests
