@@ -32,13 +32,23 @@ class MainMenuToolbar(BaseMethods, ABC):
         """:type WebDriver.WebDriver.WebDriver"""
         self.SELECTORS = self.SELECTORS | dict(zip(self.LOCALES, self.LOCALES))
 
-    def to_login_screen(self):
+    def to_login_screen(self) -> LoginScreen:
+        """
+        Метод проброса WebDriver в другой PageObject
+        :return:
+        """
         return LoginScreen(self.__driver)
 
-    def logout(self):
+    def logout(self) -> None:
+        """
+        Метод выхода пользователя и завершения сессии
+        """
+        url = self.__driver.current_url.replace('/', '').split(':')[-1]
+        if url in self.__driver.page_source:
+            return
         logout = self.to_login_screen()
         if logout.check_page_title_exists(logout.locale[logout.SELECTORS['TEXT_TITLE_TAB_PAGE']],
-                                          timeout=0.5, alert=False):
+                                          timeout=0.5, alert=False, message=' '):
             return
         self.click_on_element(self.SELECTORS['TOGGLE_DROPDOWN_USER'])
         self.dropdown_item_select(self.SELECTORS['ITEM_USER_EXIT'])

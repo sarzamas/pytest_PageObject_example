@@ -85,7 +85,7 @@ class LoginScreen(BaseMethods, ABC):
         self.fill_text_input_field(self.SELECTORS['INPUT_FIELD_PASSWORD'], user.password)
         self.click_on_element(self.SELECTORS['BUTTON_LOGIN'])
         if self.check_page_title_exists(
-                self.locale[self.SELECTORS['TEXT_TITLE_TAB_PAGE']], timeout=0.5, delay=0.5, alert=False):
+                self.locale[self.SELECTORS['TEXT_TITLE_TAB_PAGE']], timeout=0.5, delay=0.5, message=' ', alert=False):
             self.new_installation_setup(user.password)
 
     def new_installation_setup(self, password: str) -> None:

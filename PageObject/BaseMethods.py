@@ -285,28 +285,28 @@ class BaseMethods:
                 checkbox.click()
 
     def check_page_title_exists(self, contains_text: str, timeout=MAX_WAIT_TIME, delay: Optional[int | float] = None,
-                                alert: bool = True) -> bool:
+                                message: Optional[str] = None, alert: bool = True) -> bool:
         """
         Метод проверки `PageTitle` заголовка закладки страницы браузера на `ContainsText`
          (или ждать его появления по `Timeout`)
         :param contains_text: str: значение поисковой фразы
         :param timeout: int | float: время ожидания появления заголовка (сек)
         :param delay: int | float: интервал времени до начала проверки (сек)
+        :param message: str: текст сообщения при отсутствии совпадения (не зависит от :param alert)
         :param alert: bool: вызывать/не вызывать AssertionError при отсутствии совпадения
         :return: result: bool или AssertionError
         """
-        text_name = self.get_name(contains_text)
+        message = message if message else (f"{os.linesep}INFO:\tОжидание страницы по адресу {self.__driver.current_url}"
+                                           f" с PageTitle: `{contains_text}` превысило отведенное время: {timeout} сек")
         result = False
         sleep(delay) if delay else None
 
         try:
-            result = WebDriverWait(self.__driver, timeout).until(
-                ec.title_contains(contains_text),
-                message=f"INFO:\tОжидание страницы по адресу {self.__driver.current_url} с PageTitle: `{contains_text}`"
-                        f" превысило отведенное время: {timeout} сек")
+            result = WebDriverWait(self.__driver, timeout).until(ec.title_contains(contains_text), message=message)
         except TimeoutException as e:
             print(str(e))
         if alert:
+            text_name = self.get_name(contains_text)
             assert result, self.alert(name=text_name, text=contains_text)
 
         return result
