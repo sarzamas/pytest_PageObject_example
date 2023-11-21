@@ -1,11 +1,13 @@
 import os
 from time import sleep
 
-from selenium.common.exceptions import (NoSuchElementException,
-                                        NoSuchWindowException,
-                                        TimeoutException,
-                                        UnexpectedAlertPresentException,
-                                        WebDriverException)
+from selenium.common.exceptions import (
+    NoSuchElementException,
+    NoSuchWindowException,
+    TimeoutException,
+    UnexpectedAlertPresentException,
+    WebDriverException,
+)
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as ec
@@ -57,7 +59,7 @@ class WebBase:
 
             raise NoSuchElementException
 
-        wait = WebDriverWait(driver, timeout, TIMEOUT_STEP, ignored_exceptions=[NoSuchElementException,])
+        wait = WebDriverWait(driver, timeout, TIMEOUT_STEP, ignored_exceptions=[NoSuchElementException, ])
 
         try:
             return WebElement(
@@ -109,7 +111,7 @@ class WebBase:
 
             return result
 
-        wait = WebDriverWait(driver, timeout, TIMEOUT_STEP, ignored_exceptions=[NoSuchElementException,])
+        wait = WebDriverWait(driver, timeout, TIMEOUT_STEP, ignored_exceptions=[NoSuchElementException, ])
 
         try:
             ret_results = []
