@@ -44,7 +44,7 @@ class MainMenuToolbar(BaseMethods, ABC):
         Метод выхода пользователя и завершения сессии
         """
         url = self.__driver.current_url.replace('/', '').split(':')[-1]
-        if url in self.__driver.page_source:
+        if any(text in self.__driver.page_source for text in [url, 'care@saymon.info']):
             return
         logout = self.to_login_screen()
         if logout.check_page_title_exists(logout.locale[logout.SELECTORS['TEXT_TITLE_TAB_PAGE']],
