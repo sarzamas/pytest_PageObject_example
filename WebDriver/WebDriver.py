@@ -31,7 +31,7 @@ class WebDriver(WebBase):
         """ :type name: selenium.webdriver.WebDriver """
         super().__init__()
         self.config = config
-        self.name = config.browser.selenoid.executor_id.format(name)
+        self.name = config.browser.selenoid.executor_id.format(name) if config.browser.selenoid.executor_id else None
         self.driver = self.__local_driver_init() if not self.config.browser.selenoid.use_selenoid \
             else self.__remote_driver_init(name)
 

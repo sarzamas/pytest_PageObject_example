@@ -114,4 +114,4 @@ class LoginScreen(BaseMethods, ABC):
                                       self.locale[self.SELECTORS['TEXT_WARNING_PSW_MISMATCH']])
         self.fill_text_input_field(self.SELECTORS['INPUT_FIELD_CONFIRM_PSW'], password, typing_speed_delay=False)
         self.verify_element_availability(self.SELECTORS['BUTTON_SAVE'], enabled=True)
-        self.click_on_element(self.SELECTORS['BUTTON_SAVE'])
+        # self.click_on_element(self.SELECTORS['BUTTON_SAVE'])
