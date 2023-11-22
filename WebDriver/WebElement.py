@@ -2,8 +2,7 @@ import random
 from time import sleep
 
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.remote.webelement import (
-    WebElement as SeleniumWebElement)
+from selenium.webdriver.remote.webelement import WebElement as SeleniumWebElement
 
 from WebDriver.WebBase import WebBase
 
