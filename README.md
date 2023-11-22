@@ -25,7 +25,14 @@ $ sudo mv geckodriver /usr/local/bin
 
 -- новый пароль для пользователя `admin`
 
-- Запустить тесты
+## Запуск:
+- Запустить тесты в `terminal console` (CI/CD workflow)
+```code
+$ cd <ProjectPath>
+$ python -m pytest 
+
+```
+- Запустить тесты в `PyCharm`
 
 P.S. Возможные проблемы при запуске firefox из PyCharm:
 
