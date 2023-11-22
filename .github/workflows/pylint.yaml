@@ -26,6 +26,6 @@ jobs:
         pip install -r requirements.txt
         pip install black colorama flake8 isort mypy pylint
     - name: Run isort
-      run: isort . .isort.cfg --check-only
+      run: isort . .isort.cfg --check --diff --only-modified
     - name: Analysing the code with pylint
       run: pylint $(git ls-files '*.py') --max-line-length=120 --ignore-imports=yes -d C0103,C0114

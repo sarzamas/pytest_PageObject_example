@@ -16,10 +16,17 @@ $ sudo mv geckodriver /usr/local/bin
 ```
 - Из шаблона `config.json` создать локальный файл `config.local.json` (файл в .gitignore)
 - Указать в локальном файле конфигурации следующие значения:
+
 -- url сервера в формате `'http://<IP ADDRESS>'`
+
 -- имя браузера: `chrome` / `firefox`
+
 -- путь до соответствующего webdriver `driver_path`
+
 -- новый пароль для пользователя `admin`
+
 - Запустить тесты
-P.S. Возможные проблемы при запуске firefox:
+
+P.S. Возможные проблемы при запуске firefox из PyCharm:
+
 - https://github.com/mozilla/geckodriver/issues/2062
