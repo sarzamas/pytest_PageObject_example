@@ -1,5 +1,7 @@
 # pytest_PageObject_example
-Пример реализации паттерна PageObject с помощью Pytest 
+Пример реализации паттерна PageObject с помощью Pytest
+
+[![linter](https://github.com/sarzamas/pytest_PageObject_example/actions/workflows/linter.yaml/badge.svg?branch=main&event=push)](https://github.com/sarzamas/pytest_PageObject_example/actions/workflows/linter.yaml)
 
 ## Установка:
 - Установить Python3.12, Chrome/Firefox
@@ -29,7 +31,7 @@ $ sudo mv geckodriver /usr/local/bin
 - Запустить тесты в `terminal console` (CI/CD workflow)
 ```code
 $ cd <ProjectPath>
-$ python -m pytest 
+$ python -m pytest
 ```
 - Запустить тесты в `PyCharm`
 
