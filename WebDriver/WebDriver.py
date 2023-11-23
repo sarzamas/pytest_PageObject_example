@@ -26,14 +26,20 @@ def log_file_path(log_path):
 
 
 class WebDriver(WebBase):
+    """
+    Класс инициализирующий WebDriver с требуемыми параметрами
+    """
 
     def __init__(self, config: Config, name: str = None):
-        """ :type name: selenium.webdriver.WebDriver """
+        """:type name: selenium.webdriver.WebDriver"""
         super().__init__()
         self.config = config
         self.name = config.browser.selenoid.executor_id.format(name) if config.browser.selenoid.executor_id else None
-        self.driver = self.__local_driver_init() if not self.config.browser.selenoid.use_selenoid \
+        self.driver = (
+            self.__local_driver_init()
+            if not self.config.browser.selenoid.use_selenoid
             else self.__remote_driver_init(name)
+        )
 
     def __getattr__(self, item):
         return getattr(self.driver, item)
@@ -92,8 +98,10 @@ class WebDriver(WebBase):
             options.headless = config.headless
             capabilities = options.to_capabilities()
             capabilities['sessionTimeout'] = "5m"
-            name = (f"Браузер зарезервирован {config.selenoid.executor_id} для теста: "
-                    f"{name if name else config.selenoid.executor_id + ' ' + str(uuid4())}")
+            name = (
+                f"Браузер зарезервирован {config.selenoid.executor_id} для теста: "
+                f"{name if name else config.selenoid.executor_id + ' ' + str(uuid4())}"
+            )
             capabilities['name'] = name
             capabilities['pageLoadStrategy'] = "eager"
             capabilities['acceptSslCerts'] = True

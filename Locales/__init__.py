@@ -39,8 +39,10 @@ class Locale(DotDict):
         """
         Метод обновления locale в объектах PageObject
         """
-        prefix = f"{os.linesep}{'*' * 145}{os.linesep}* В файле локализации " \
-                 f"{os.path.relpath(os.path.join(LOCALES_PATH, lang, f'saymon_{lang}.yaml'))} "
+        prefix = (
+            f"{os.linesep}{'*' * 145}{os.linesep}* В файле локализации "
+            f"{os.path.relpath(os.path.join(LOCALES_PATH, lang, f'saymon_{lang}.yaml'))} "
+        )
         if len(self.items()) == 0:
             prefix = f"{prefix}отсутствуют данные или используется неизвестный tag: импорт данных заблокирован"
             print(prefix, end='')
@@ -48,10 +50,12 @@ class Locale(DotDict):
 
         page_objects = list(BaseMethods.get_all_subclasses())
         if not any(self.get(page.__name__) for page in page_objects):
-            prefix = (f"{prefix}обнаружен  !tag:{os.linesep}*\tПри отсутствии флага разрешения использования тэгов в "
-                      f"файле конфигурации {Config().config_path} - импорт данных локализации заблокирован "
-                      f"{os.linesep}{'*' * 145}{os.linesep}*\t!!!ВНИМАНИЕ!!! - потенциальная уязвимость -\t"
-                      f"Устанавливайте флаг разрешения тэгов только при доверии к источнику файлов локализации!")
+            prefix = (
+                f"{prefix}обнаружен  !tag:{os.linesep}*\tПри отсутствии флага разрешения использования тэгов в "
+                f"файле конфигурации {Config().config_path} - импорт данных локализации заблокирован "
+                f"{os.linesep}{'*' * 145}{os.linesep}*\t!!!ВНИМАНИЕ!!! - потенциальная уязвимость -\t"
+                f"Устанавливайте флаг разрешения тэгов только при доверии к источнику файлов локализации!"
+            )
             print(prefix, end='')
             raise KeyError(prefix, lookup_report())
 
@@ -59,12 +63,16 @@ class Locale(DotDict):
             if page.LOCALES:
                 for key in page.LOCALES:
                     if key not in self.get(page.__name__).keys():
-                        prefix = (f"{prefix}отсутствует запись с локализацией для ключа `{key}`, "
-                                  f"объявленного в PageObject `{page.__name__}`")
+                        prefix = (
+                            f"{prefix}отсутствует запись с локализацией для ключа `{key}`, "
+                            f"объявленного в PageObject `{page.__name__}`"
+                        )
                         print(prefix)
                         raise KeyError(prefix, lookup_report())
             page.locale = self.get(page.__name__)
 
-        print(f"OS Locale:\t{Config(update_file=True).os_language}{os.linesep}"
-              f"UI Locale:\t{lang}{os.linesep * 2}{'*' * 80}")
+        print(
+            f"OS Locale:\t{Config(update_file=True).os_language}{os.linesep}"
+            f"UI Locale:\t{lang}{os.linesep * 2}{'*' * 80}"
+        )
         self.__write_locale()

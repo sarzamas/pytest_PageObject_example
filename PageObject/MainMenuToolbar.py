@@ -9,6 +9,7 @@ class MainMenuToolbar(BaseMethods, ABC):
     Класс, содержащий ключи локализации, селекторы и методы,
     используемые в верхней строке 'HeaderMenu' на главной странице SAYMON UI
     """
+
     # <editor-fold desc="CONSTANTS">
     LOCALES = [
         'TEXT_TITLE_TAB_PAGE',
@@ -17,9 +18,7 @@ class MainMenuToolbar(BaseMethods, ABC):
     SELECTORS = {
         'BUTTON_OBJECT_CREATE': "#js-create-object",
         'BUTTON_DROPDOWN_OBJECT_CREATE': "#js-create-dropdown-toggle",
-
         'TOGGLE_DROPDOWN_USER': ".dropdown > button:nth-child(1)",
-
         'ITEM_OBJECT_CREATE': "ul.dropdown-menu:nth-child(7) > li:nth-child(1) > a:nth-child(1)",
         'ITEM_USER_CONFIG': "ul.dropdown-menu:nth-child(2) > li:nth-child(2) > a:nth-child(1)",
         'ITEM_USER_EXIT': "ul.dropdown-menu:nth-child(2) > li:nth-child(6) > a:nth-child(1)",
@@ -47,8 +46,9 @@ class MainMenuToolbar(BaseMethods, ABC):
         if any(text in self.__driver.page_source for text in [url, 'care@saymon.info']):
             return
         logout = self.to_login_screen()
-        if logout.check_page_title_exists(logout.locale[logout.SELECTORS['TEXT_TITLE_TAB_PAGE']],
-                                          timeout=0.5, alert=False, message=' '):
+        if logout.check_page_title_exists(
+            logout.locale[logout.SELECTORS['TEXT_TITLE_TAB_PAGE']], timeout=0.5, alert=False, message=' '
+        ):
             return
         self.click_on_element(self.SELECTORS['TOGGLE_DROPDOWN_USER'])
         self.dropdown_item_select(self.SELECTORS['ITEM_USER_EXIT'])

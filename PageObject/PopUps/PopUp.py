@@ -16,20 +16,19 @@ class PopupType:
         'INPUT_FIELD_DROPDOWN': "div.form-control > button:nth-child(1) > span:nth-child(1)",
         'LEFT_BTN': ".js-submit",
         'RIGHT_BTN': "button.btn:nth-child(2)",
-        "CANCEL_BTN": ".modal-header > button:nth-child(1)"
+        "CANCEL_BTN": ".modal-header > button:nth-child(1)",
     }
 
-    WARNING = {
-    }
+    WARNING = {}
 
-    STANDARD_POPUP = {
-    }
+    STANDARD_POPUP = {}
 
 
 class PopUp:
     """
     Класс содержащий методы для модальных окон
     """
+
     __slots__ = [
         'popup_name',
         '__driver',
@@ -61,8 +60,9 @@ class PopUp:
         """
         input_field = self.__driver.find_element_by_css_selector(self.INPUT_FIELD)
         input_field.send_keys(name)
-        assert not self.__driver.find_element_by_css_selector(self.INPUT_FIELD_ERROR), \
-            f"{self.popup_name} не позволяет вставить полученное имя: {name} в поле ввода {self.INPUT_FIELD}"
+        assert not self.__driver.find_element_by_css_selector(
+            self.INPUT_FIELD_ERROR
+        ), f"{self.popup_name} не позволяет вставить полученное имя: {name} в поле ввода {self.INPUT_FIELD}"
 
     def left_btn_click(self):
         """

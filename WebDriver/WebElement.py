@@ -8,6 +8,9 @@ from WebDriver.WebBase import WebBase
 
 
 class WebElement(WebBase):
+    """
+    Класс методов взаимодействия с WebElement
+    """
 
     def __init__(self, element: SeleniumWebElement, driver):
         super().__init__()
@@ -30,9 +33,9 @@ class WebElement(WebBase):
 
         if typing_speed_delay:
             for character in list(text):
-                sleep(typing_speed_delay) \
-                    if isinstance(typing_speed_delay, int) \
-                    else sleep(random.uniform(min_delay, max_delay))
+                sleep(typing_speed_delay) if isinstance(typing_speed_delay, int) else sleep(
+                    random.uniform(min_delay, max_delay)
+                )
                 self.elem.send_keys(character)
             return self
 
@@ -55,8 +58,9 @@ class WebElement(WebBase):
         assert element, "Не найден ожидаемый элемент."
         text = str(text)
         real_text = str(element.text)
-        assert text == real_text, (f"Текст элемента не соответствует ожидаемому. Ожидаемый текст: {text} Имеющийся "
-                                   f"текст: {real_text}")
+        assert text == real_text, (
+            f"Текст элемента не соответствует ожидаемому. Ожидаемый текст: {text} Имеющийся " f"текст: {real_text}"
+        )
         return self
 
     def verify_value(self, value, timeout=5):
@@ -72,8 +76,9 @@ class WebElement(WebBase):
             real_value = str(element.get_attribute('value'))
         if value == real_value:
             return self
-        assert value == real_value, (f"value элемента не соответствует ожидаемому. "
-                                     f"Ожидаемый value: {value} Имеющийся value: {real_value}")
+        assert value == real_value, (
+            f"value элемента не соответствует ожидаемому. " f"Ожидаемый value: {value} Имеющийся value: {real_value}"
+        )
         return self
 
     def is_disabled(self) -> bool:

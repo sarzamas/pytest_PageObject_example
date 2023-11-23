@@ -16,7 +16,9 @@ class DotDict(dict):
                     value = DotDict(value)
                 self[key] = value
         else:
-            prefix = (f"{os.linesep}{'*' * 145}{os.linesep}* На входе Инициализатора класса DotDict: '{ddict}':\t"
-                      f"Проверьте содержимое источника данных (файла)")
+            prefix = (
+                f"{os.linesep}{'*' * 145}{os.linesep}* На входе Инициализатора класса DotDict: '{ddict}':\t"
+                f"Проверьте содержимое источника данных (файла)"
+            )
             print(prefix, end='')
             raise TypeError(f"{prefix}{lookup_report()})")

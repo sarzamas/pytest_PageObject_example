@@ -18,6 +18,7 @@ class BaseMethods:
     """
     Класс, содержащий методы, используемые на всех страницах PageObject
     """
+
     # <editor-fold desc="CONSTANTS">
     MAX_WAIT_TIME = 15
     SELECTORS: dict
@@ -65,11 +66,14 @@ class BaseMethods:
         :param val: str: значение ключа в словаре селекторов класса
         :return: key: str: имя ключа
         """
-        prefix = (f"{os.linesep}{' ! ОШИБКА В СЕЛЕКТОРЕ ! ':*^145}"
-                  f"{os.linesep}* PageObject `{self.__class__.__name__}`: ")
+        prefix = (
+            f"{os.linesep}{' ! ОШИБКА В СЕЛЕКТОРЕ ! ':*^145}" f"{os.linesep}* PageObject `{self.__class__.__name__}`: "
+        )
         if not isinstance(val, str):
-            raise TypeError(f"{prefix}При вызове метода задано значение `{val}` для поиска имени селектора в словаре: "
-                            f"{os.linesep}* {self.SELECTORS.items()}{lookup_report()}")
+            raise TypeError(
+                f"{prefix}При вызове метода задано значение `{val}` для поиска имени селектора в словаре: "
+                f"{os.linesep}* {self.SELECTORS.items()}{lookup_report()}"
+            )
         if self.locale:
             for key, value in dict(self.SELECTORS | self.locale).items():
                 if val == value:
@@ -123,9 +127,11 @@ class BaseMethods:
                     f"вызываемым методом{lookup_report()}"
                 )
 
-        return (f"{os.linesep}{' ! ОШИБКА В ЛОКАТОРЕ ! ':*^145}{os.linesep}* PageObject `{page}` по адресу "
-                f"{self.__driver.current_url}{os.linesep}*\tWebElement:\t`{params['name']}`\t"
-                f"{prefix1}:\t`{kwargs[params['param']]}`\t{prefix2} !{lookup_report()}")
+        return (
+            f"{os.linesep}{' ! ОШИБКА В ЛОКАТОРЕ ! ':*^145}{os.linesep}* PageObject `{page}` по адресу "
+            f"{self.__driver.current_url}{os.linesep}*\tWebElement:\t`{params['name']}`\t"
+            f"{prefix1}:\t`{kwargs[params['param']]}`\t{prefix2} !{lookup_report()}"
+        )
 
     def find_element(self, selector: str, timeout=MAX_WAIT_TIME) -> Optional[WebDriver.WebDriver.WebDriver]:
         """
@@ -198,8 +204,14 @@ class BaseMethods:
         assert item, self.alert(name=selector_name, selector=item_selector)
         item.click()
 
-    def wait_for_tooltip_is_visible(self, tooltip_selector: str, element_selector_to_show_tooltip=None,
-                                    element_to_show_tooltip=None, timeout=MAX_WAIT_TIME, move_to_element=True) -> str:
+    def wait_for_tooltip_is_visible(
+        self,
+        tooltip_selector: str,
+        element_selector_to_show_tooltip=None,
+        element_to_show_tooltip=None,
+        timeout=MAX_WAIT_TIME,
+        move_to_element=True,
+    ) -> str:
         """
         Ждать появления подсказки, подождать закрытия, вернуть её текст
         :return: tooltip_text: str
@@ -226,8 +238,9 @@ class BaseMethods:
         actions.move_by_offset((element.rect['width'] / 2 + 10) * -1, 0).perform()
         actions.click().perform()
 
-    def wait_for_element_is_visible(self, element=None, selector_name=None, selector_value=None, obj=None,
-                                    timeout=MAX_WAIT_TIME) -> WebDriver:
+    def wait_for_element_is_visible(
+        self, element=None, selector_name=None, selector_value=None, obj=None, timeout=MAX_WAIT_TIME
+    ) -> WebDriver:
         """
         Ждать, когда указанный элемент станет видимым на странице
         :return: element: WebElement !!! АКТУАЛЬНЫЙ ТОЛЬКО ДО СЛЕДУЮЩЕГО ДЕЙСТВИЯ C DOM !!!
@@ -242,8 +255,9 @@ class BaseMethods:
 
         return element
 
-    def wait_for_element_is_not_visible(self, element=None, element_selector=None, element_name=None, obj=None,
-                                        timeout=MAX_WAIT_TIME) -> None:
+    def wait_for_element_is_not_visible(
+        self, element=None, element_selector=None, element_name=None, obj=None, timeout=MAX_WAIT_TIME
+    ) -> None:
         """
         Ждать, когда указанный элемент станет невидимым на странице
         """
@@ -251,8 +265,9 @@ class BaseMethods:
         if not element:
             element = driver.wait_for_element_to_disappear(element_selector, timeout=timeout)
 
-        assert element, ("Элемент: '{0}' остался видимым на странице".format
-                         (element_name if element_name else element_selector))
+        assert element, "Элемент: '{0}' остался видимым на странице".format(
+            element_name if element_name else element_selector
+        )
 
     def wait_until_element_disappeared(self, selector: str, timeout=MAX_WAIT_TIME) -> bool:
         """
@@ -267,7 +282,8 @@ class BaseMethods:
         element = self.__driver.find_element_by_css_selector(selector, timeout=timeout)
 
         result = WebDriverWait(self.__driver, timeout).until(
-            ec.staleness_of(element), message=self.alert(name=selector_name, selector=selector, timeout=timeout))
+            ec.staleness_of(element), message=self.alert(name=selector_name, selector=selector, timeout=timeout)
+        )
         return result
 
     def select_checkbox_by_text(self, label_selector: str, checkbox_selector: str, text: str) -> None:
@@ -283,8 +299,14 @@ class BaseMethods:
             if text in item.text:
                 checkbox.click()
 
-    def check_page_title_exists(self, contains_text: str, timeout=MAX_WAIT_TIME, delay: Optional[int | float] = None,
-                                message: Optional[str] = None, alert: bool = True) -> bool:
+    def check_page_title_exists(
+        self,
+        contains_text: str,
+        timeout=MAX_WAIT_TIME,
+        delay: Optional[int | float] = None,
+        message: Optional[str] = None,
+        alert: bool = True,
+    ) -> bool:
         """
         Метод проверки `PageTitle` заголовка закладки страницы браузера на `ContainsText`
          (или ждать его появления по `Timeout`)
@@ -295,8 +317,14 @@ class BaseMethods:
         :param alert: bool: вызывать/не вызывать AssertionError при отсутствии совпадения
         :return: result: bool или AssertionError
         """
-        message = message if message else (f"{os.linesep}INFO:\tОжидание страницы по адресу {self.__driver.current_url}"
-                                           f" с PageTitle: `{contains_text}` превысило отведенное время: {timeout} сек")
+        message = (
+            message
+            if message
+            else (
+                f"{os.linesep}INFO:\tОжидание страницы по адресу {self.__driver.current_url}"
+                f" с PageTitle: `{contains_text}` превысило отведенное время: {timeout} сек"
+            )
+        )
         result = False
         sleep(delay) if delay else None
 

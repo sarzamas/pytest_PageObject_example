@@ -56,7 +56,7 @@ def locale():
 
 @pytest.fixture(scope='class')
 def driver(config: Config) -> WebDriver:
-    """ Фикстура инициализации и закрытия WebDriver """
+    """Фикстура инициализации и закрытия WebDriver"""
     webdriver = WebDriver(config)
 
     yield webdriver
@@ -66,5 +66,5 @@ def driver(config: Config) -> WebDriver:
 
 @pytest.fixture(scope='class')
 def page_object(driver: WebDriver) -> PageObject:
-    """ Фикстура инициализации PageObject """
+    """Фикстура инициализации PageObject"""
     return PageObject(driver)

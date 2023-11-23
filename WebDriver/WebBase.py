@@ -18,18 +18,18 @@ MAX_TIMEOUT = 5
 
 
 class WebBase:
-    """type: selenium.webdriver.remote.webelement.WebElement """
+    """type: selenium.webdriver.remote.webelement.WebElement"""
 
     def __init__(self):
         self.driver = None
         self.elem = None
 
-    def __custom_find_by(
-            self, by_method: str, value: str, timeout: float | int, wait_element_visibility=True):
+    def __custom_find_by(self, by_method: str, value: str, timeout: float | int, wait_element_visibility=True):
         """
         Кастомная обертка методов поиска WebElement с поддержкой таймаутов и поиска невидимых элементов
         """
         from WebDriver.WebElement import WebElement  # isort:skip
+
         driver = self.driver if not isinstance(self, WebElement) else self.elem
 
         if not isinstance(self, WebElement):
@@ -59,25 +59,35 @@ class WebBase:
 
             raise NoSuchElementException
 
-        wait = WebDriverWait(driver, timeout, TIMEOUT_STEP, ignored_exceptions=[NoSuchElementException, ])
+        wait = WebDriverWait(
+            driver,
+            timeout,
+            TIMEOUT_STEP,
+            ignored_exceptions=[
+                NoSuchElementException,
+            ],
+        )
 
         try:
             return WebElement(
-                wait.until(_expected_condition,
-                           message=f"INFO:\tНа странице с PageTitle: `{driver.title}` WebElement с селектором `{value}`"
-                                   f" не найден за {timeout} сек"), driver
+                wait.until(
+                    _expected_condition,
+                    message=f"INFO:\tНа странице с PageTitle: `{driver.title}` WebElement с селектором `{value}`"
+                    f" не найден за {timeout} сек",
+                ),
+                driver,
             )
 
         except TimeoutException as e:
             print(str(e))
             return None
 
-    def __custom_finds_by(
-            self, by_method: str, value: str, timeout: float | int, wait_element_visibility=True):
+    def __custom_finds_by(self, by_method: str, value: str, timeout: float | int, wait_element_visibility=True):
         """
         Кастомная обертка методов поиска WebElements с поддержкой таймаутов и поиска невидимых элементов
         """
         from WebDriver.WebElement import WebElement  # isort:skip
+
         driver = self.driver if not isinstance(self, WebElement) else self.elem
 
         if not isinstance(self, WebElement):
@@ -97,7 +107,6 @@ class WebBase:
                 raise NoSuchElementException
 
             for el in elems:
-
                 if el.is_displayed():
                     result.append(el)
                     continue
@@ -111,14 +120,22 @@ class WebBase:
 
             return result
 
-        wait = WebDriverWait(driver, timeout, TIMEOUT_STEP, ignored_exceptions=[NoSuchElementException, ])
+        wait = WebDriverWait(
+            driver,
+            timeout,
+            TIMEOUT_STEP,
+            ignored_exceptions=[
+                NoSuchElementException,
+            ],
+        )
 
         try:
             ret_results = []
             elements = wait.until(
                 _expected_condition,
                 message=f"INFO:\tНа странице с PageTitle: `{driver.title}` WebElement с селектором `{value}` "
-                        f"не найден за {timeout} сек")
+                f"не найден за {timeout} сек",
+            )
             for element in elements:
                 ret_results.append(WebElement(element, driver))
             return ret_results
@@ -140,7 +157,7 @@ class WebBase:
             WebDriverWait(self.driver, timeout=MAX_TIMEOUT).until(
                 _interactive_ready_state,
                 message=f"ERROR:\tСтраница с PageTitle: `{self.driver.title}` "
-                        f"не загрузилась за {MAX_TIMEOUT} сек{os.linesep}"
+                f"не загрузилась за {MAX_TIMEOUT} сек{os.linesep}",
             )
 
         except (NoSuchWindowException, UnexpectedAlertPresentException, WebDriverException, TypeError):
@@ -180,15 +197,16 @@ class WebBase:
         try:
             WebDriverWait(self.driver, timeout).until(
                 ec.invisibility_of_element_located((By.CSS_SELECTOR, selector)),
-                message=f"WebElement с селектором: `{selector}` не исчез за {timeout} секунд"
+                message=f"WebElement с селектором: `{selector}` не исчез за {timeout} секунд",
             )
         except TimeoutException as e:
             print(str(e))
             return False
         return True
 
-    def find_element_in_table_by_text(self, table_items, text, match_case=False, match_words=False,
-                                      timeout=MAX_TIMEOUT, check_elements=True):
+    def find_element_in_table_by_text(
+        self, table_items, text, match_case=False, match_words=False, timeout=MAX_TIMEOUT, check_elements=True
+    ):
         """
         Ищет указанный текст во всех элементах таблицы и возвращает первый элемент в котором был найден текст
         :param table_items: селектор списка элементов таблицы

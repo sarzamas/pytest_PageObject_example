@@ -30,7 +30,6 @@ $ sudo mv geckodriver /usr/local/bin
 ```code
 $ cd <ProjectPath>
 $ python -m pytest 
-
 ```
 - Запустить тесты в `PyCharm`
 

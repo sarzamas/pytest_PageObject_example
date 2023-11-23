@@ -9,6 +9,7 @@ class TestData:
     Чек-лист: https://sitechco.saymon.info/project/2/checklist/2570/details
     Language: {"RUSSIAN": 'ru', "ENGLISH": 'en', "ITALIAN": 'it'}
     """
+
     LANGUAGE = ['ru', 'en', 'it']
 
     @pytest.fixture(scope='function', name='locale_ru')

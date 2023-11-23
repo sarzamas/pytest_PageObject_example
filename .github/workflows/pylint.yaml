@@ -29,10 +29,10 @@ jobs:
         pip install -r requirements.txt
         pip install black colorama flake8 isort mypy pylint
 
-    - name: Run isort
+    - name: Run Import formatter
       run: isort . pyproject.toml --check --diff --only-modified
 
-    - name: Run black
+    - name: Run Code formatter
       run: black . --check --diff
 
     - name: Analysing the code with pylint
