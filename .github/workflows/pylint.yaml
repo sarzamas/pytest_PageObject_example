@@ -14,18 +14,26 @@ jobs:
         python-version: ["3.12"]
     steps:
     - uses: actions/checkout@v3
+
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v3
       with:
         python-version: ${{ matrix.python-version }}
+
     - name: Display Python version
       run: python -c "import sys; print(sys.version)"
+
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install black colorama flake8 isort mypy pylint
+
     - name: Run isort
       run: isort . pyproject.toml --check --diff --only-modified
+
+    - name: Run black
+      run: black . --check --diff
+
     - name: Analysing the code with pylint
       run: pylint $(git ls-files '*.py') --max-line-length=120 --ignore-imports=yes -d C0103,C0114
