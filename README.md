@@ -33,6 +33,7 @@ $ python -m pytest
 ```
 - Запустить тесты в `PyCharm`
 
-P.S. Возможные проблемы при запуске `firefox` из `PyCharm` установленного через `snap`:
+[!NOTE]
+Возможные проблемы при запуске `firefox` из `PyCharm` установленного через `snap`:
 
 - https://github.com/mozilla/geckodriver/issues/2062
