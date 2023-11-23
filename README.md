@@ -1,8 +1,5 @@
-# pytest_PageObject_example
+# pytest_PageObject_example [![linter](https://github.com/sarzamas/pytest_PageObject_example/actions/workflows/linter.yaml/badge.svg?branch=main&event=push)](https://github.com/sarzamas/pytest_PageObject_example/actions/workflows/linter.yaml)
 Пример реализации паттерна PageObject с помощью Pytest
-
-[![linter](https://github.com/sarzamas/pytest_PageObject_example/actions/workflows/linter.yaml/badge.svg?branch=main&event=push)](https://github.com/sarzamas/pytest_PageObject_example/actions/workflows/linter.yaml)
-
 ## Установка:
 - Установить Python3.12, Chrome/Firefox
 - Клонировать проект, реализовать python3.12 venv
