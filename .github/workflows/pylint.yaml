@@ -34,6 +34,8 @@ jobs:
 
     - name: Run Code formatter
       run: black . --check --diff
+    - name: pytest
+      run: python -m pytest
 
     - name: Analysing the code with pylint
       run: pylint $(git ls-files '*.py') --max-line-length=120 --ignore-imports=yes -d C0103,C0114
