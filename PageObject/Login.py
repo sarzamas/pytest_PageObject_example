@@ -38,6 +38,7 @@ class LoginScreen(BaseMethods):
         'ITEM_LANG_ITALIAN': ".flag-it",
         'ITEM_LANG_RUSSIAN': ".flag-ru",
         'LOADING_DOTS': "div.bounce",
+        'SUPPORT': ".contact-us > a:nth-child(2)",
     }
 
     # </editor-fold desc="Constants">
@@ -50,8 +51,13 @@ class LoginScreen(BaseMethods):
         Метод смены языка интерфейса в SAYMON UI
         :param language: str: язык интерфейса SAYMON UI
         """
+        load_time = 60
         loading = self.find_element(self.SELECTORS['LOADING_DOTS'], timeout=0.5)
-        self.wait_until_element_disappeared(self.SELECTORS['LOADING_DOTS'], timeout=60) if loading else None
+        self.wait_until_element_disappeared(self.SELECTORS['LOADING_DOTS'], timeout=load_time) if loading else None
+        if self.find_element(self.SELECTORS['SUPPORT'], timeout=0.5):
+            raise ConnectionRefusedError(
+                f"Сервер по адресу {loading.driver.current_url} не отвечал на ping в течение {load_time} сек"
+            )
         self.verify_element_availability(self.SELECTORS['TOGGLE_DROPDOWN_LANG'], enabled=True)
         self.click_on_element(self.SELECTORS['TOGGLE_DROPDOWN_LANG'])
         selector_name = None
