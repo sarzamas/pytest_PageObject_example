@@ -1,10 +1,8 @@
-from abc import ABC
-
 from PageObject.BaseMethods import BaseMethods
 from Utils.DotDict import DotDict
 
 
-class LoginScreen(BaseMethods, ABC):
+class LoginScreen(BaseMethods):
     """
     Класс, содержащий ключи локализации, селекторы и методы, используемые на странице авторизации
     """

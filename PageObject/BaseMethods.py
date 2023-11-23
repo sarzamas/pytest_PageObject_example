@@ -1,5 +1,4 @@
 import os
-from abc import abstractmethod
 from time import sleep
 from typing import Optional
 
@@ -27,7 +26,7 @@ class BaseMethods:
 
     def __new__(cls, *args, **kwargs):
         if cls is BaseMethods:
-            raise TypeError(f"@AbstractClass `{cls.__name__}` не предусматривает создание экземпляра")
+            raise TypeError(f"Класс `{cls.__name__}` не предусматривает создание экземпляра")
         return object.__new__(cls)
 
     def __init__(self, driver):
@@ -47,7 +46,6 @@ class BaseMethods:
             yield subclass
 
     @property
-    @abstractmethod
     def locale(self) -> DotDict:
         """
         Свойство возвращает словарь с текстами элементов для данной страницы на выбранном языке
@@ -56,7 +54,6 @@ class BaseMethods:
         return self.__locale.get(self.__class__.__name__)
 
     @locale.setter
-    @abstractmethod
     def locale(self, value: DotDict):
         self.__locale = value
 

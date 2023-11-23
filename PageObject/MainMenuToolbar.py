@@ -1,10 +1,8 @@
-from abc import ABC
-
 from PageObject import LoginScreen
 from PageObject.BaseMethods import BaseMethods
 
 
-class MainMenuToolbar(BaseMethods, ABC):
+class MainMenuToolbar(BaseMethods):
     """
     Класс, содержащий ключи локализации, селекторы и методы,
     используемые в верхней строке 'HeaderMenu' на главной странице SAYMON UI
