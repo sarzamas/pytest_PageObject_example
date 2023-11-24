@@ -1,7 +1,11 @@
 [tool.pylint]
+exit-zero = "true"
+output-format = "colorized"
 max-line-length=120
 module-naming-style = "PascalCase"
+class-attribute-naming-style = "snake_case"
 max-args = 7
+disable = ["missing-module-docstring"]
 
 [tool.black]
 color = "true"
