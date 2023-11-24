@@ -13,10 +13,8 @@ class PageObject:
 
     @property
     def login_screen(self) -> LoginScreen:
-        """"""
         return self.__login_screen
 
     @property
     def main_menu_toolbar(self) -> MainMenuToolbar:
-        """"""
         return self.__main_menu_toolbar
