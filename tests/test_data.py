@@ -35,11 +35,9 @@ class TestData:
         """
         Тест округления точных значений
         """
-        pass
 
     @pytest.mark.en
     def test_strict_values_en(self, locale_en):
         """
         Тест округления точных значений
         """
-        pass

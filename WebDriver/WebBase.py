@@ -164,15 +164,19 @@ class WebBase:
             return
 
     def find_element_by_css_selector(self, value, timeout=MAX_TIMEOUT, wait_element_visibility=True):
+        """find_element_by_css_selector method"""
         return self.__custom_find_by(By.CSS_SELECTOR, value, timeout, wait_element_visibility)
 
     def find_elements_by_css_selector(self, value, timeout=MAX_TIMEOUT, wait_element_visibility=True):
+        """find_elements_by_css_selector method"""
         return self.__custom_finds_by(By.CSS_SELECTOR, value, timeout, wait_element_visibility)
 
     def find_element_by_xpath(self, value, timeout=MAX_TIMEOUT, wait_element_visibility=True):
+        """find_element_by_xpath method"""
         return self.__custom_find_by(By.XPATH, value, timeout, wait_element_visibility)
 
     def find_elements_by_xpath(self, value, timeout=MAX_TIMEOUT, wait_element_visibility=True):
+        """find_elements_by_xpath method"""
         return self.__custom_finds_by(By.XPATH, value, timeout, wait_element_visibility)
 
     def find_element_by_link_text(self, value, timeout=MAX_TIMEOUT, wait_element_visibility=True):

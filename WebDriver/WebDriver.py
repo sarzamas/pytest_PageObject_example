@@ -1,5 +1,6 @@
 import os
 from datetime import datetime
+from typing import Optional
 from uuid import uuid4
 
 from selenium import webdriver
@@ -12,7 +13,12 @@ from Config import Config
 from WebDriver.WebBase import WebBase
 
 
-def log_file_path(log_path):
+def log_file_path(log_path: Optional[str]) -> os.path:
+    """
+    Function to provide path for WebDriver log file
+    :param log_path: str: parameter from config file for appropriate browser
+    :return: path: calculated path for log file
+    """
     log_name = datetime.now().strftime('%Y-%m-%d_T_%H_%M_%S') + ".log"
 
     if not log_path:
@@ -81,10 +87,13 @@ class WebDriver(WebBase):
             service = ChromeService(executable_path=path, log_output=log_path)
             driver = webdriver.Chrome(service=service, options=options)
 
-        if config.window.maximize:
+        else:
+            raise TypeError("Config файл проекта не содержит данных о типе используемого браузера")
+
+        if driver and config.window.maximize:
             driver.maximize_window()
         else:
-            driver.set_window_size(config.window.size.width, config.window.size.height)
+            driver.set_window_size(config.window.size.width, config.window.size.height) if driver else None
 
         return driver
 
@@ -107,7 +116,8 @@ class WebDriver(WebBase):
             capabilities['acceptSslCerts'] = True
             capabilities['enableVNC'] = True
             capabilities['version'] = "72.0"
-            driver = webdriver.Remote(command_executor=config.selenoid_url, desired_capabilities=capabilities)
+            desired_capabilities = capabilities
+            driver = webdriver.Remote(command_executor=config.selenoid_url)
 
             if config.window.maximize:
                 driver.maximize_window()

@@ -4,6 +4,7 @@ from Utils import lookup_report
 
 
 class DotDict(dict):
+    """Using dot "." notation to access dictionary keys in Python"""
     __getattr__ = dict.__getitem__
     __setattr__ = dict.__setitem__
     __delattr__ = dict.__delitem__
