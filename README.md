@@ -1,8 +1,7 @@
-# pytest_PageObject_example
-
-| :--- | ---: |
+|           |                                                                                                                                                                                                                        |
+|:----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
 | :octocat: | [![linter](https://github.com/sarzamas/pytest_PageObject_example/actions/workflows/linter.yaml/badge.svg?branch=main&event=push)](https://github.com/sarzamas/pytest_PageObject_example/actions/workflows/linter.yaml) |
-
+# pytest_PageObject_example
 Пример реализации паттерна PageObject с помощью Pytest
 ## Установка:
 - Установить Python3.12, Chrome/Firefox
