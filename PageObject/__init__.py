@@ -3,9 +3,7 @@ from PageObject.MainMenuToolbar import MainMenuToolbar
 
 
 class PageObject:
-    """
-    Класс реализующий паттерн PageObject
-    """
+    """Класс реализующий паттерн PageObject"""
 
     def __init__(self, driver):
         self.__login_screen = LoginScreen(driver)
@@ -13,8 +11,10 @@ class PageObject:
 
     @property
     def login_screen(self) -> LoginScreen:
+        """LoginScreen"""
         return self.__login_screen
 
     @property
     def main_menu_toolbar(self) -> MainMenuToolbar:
+        """MainMenuToolbar"""
         return self.__main_menu_toolbar

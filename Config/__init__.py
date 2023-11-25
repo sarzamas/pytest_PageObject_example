@@ -6,9 +6,7 @@ from Utils.DotDict import DotDict
 
 
 class Config(DotDict):
-    """
-    Класс конфигурационных данных в DotDict нотации
-    """
+    """Класс конфигурационных данных в DotDict нотации"""
 
     def __init__(self, update_file=False) -> None:
         config_dir = os.path.dirname(os.path.abspath(__file__))
@@ -47,7 +45,7 @@ class Config(DotDict):
         return self.locale.os_locale
 
     @os_language.setter
-    def os_language(self, value: str):
+    def os_language(self, value: str) -> None:
         self.locale.os_locale = value
 
     @property

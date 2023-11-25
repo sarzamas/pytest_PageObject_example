@@ -32,9 +32,7 @@ def log_file_path(log_path: Optional[str]) -> os.path:
 
 
 class WebDriver(WebBase):
-    """
-    Класс инициализирующий WebDriver с требуемыми параметрами
-    """
+    """Класс инициализирующий WebDriver с требуемыми параметрами"""
 
     def __init__(self, config: Config, name: str = None):
         """:type name: selenium.webdriver.WebDriver"""

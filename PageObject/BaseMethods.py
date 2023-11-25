@@ -14,9 +14,7 @@ from Utils.DotDict import DotDict
 
 
 class BaseMethods:
-    """
-    Класс, содержащий методы, используемые на всех страницах PageObject
-    """
+    """Класс, содержащий методы, используемые на всех страницах PageObject"""
 
     # <editor-fold desc="CONSTANTS">
     MAX_WAIT_TIME = 15

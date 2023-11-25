@@ -8,9 +8,7 @@ from WebDriver.WebBase import WebBase
 
 
 class WebElement(WebBase):
-    """
-    Класс методов взаимодействия с WebElement
-    """
+    """Класс методов взаимодействия с WebElement"""
 
     def __init__(self, element: SeleniumWebElement, driver):
         super().__init__()
