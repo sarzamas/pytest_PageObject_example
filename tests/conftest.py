@@ -1,3 +1,5 @@
+from typing import Callable
+
 import pytest
 
 from Config import Config
@@ -7,7 +9,7 @@ from WebDriver.WebDriver import WebDriver
 
 
 @pytest.fixture(scope='function', name='test_data')
-def preconditions_teardown(config, driver, locale, page_object):
+def preconditions_teardown(config, driver, locale, page_object) -> Callable:
     """
     Фикстура выполняет следующие действия для подготовки и очищения тестового окружения:
     preconditions:
@@ -19,7 +21,7 @@ def preconditions_teardown(config, driver, locale, page_object):
         - Валидирует `ВЫХОД` из SAYMON UI
     """
 
-    def _preconditions_teardown(language):
+    def _preconditions_teardown(language) -> None:
         locale(language).update_locale(language)
         driver.open_page(config.browser.base_url)
         login = page_object.login_screen
@@ -41,7 +43,7 @@ def config() -> Config:
 
 
 @pytest.fixture(scope='class')
-def locale():
+def locale() -> Callable[[property | str], Locale]:
     """
     Фикстура инициализации Locale (локализация текстов)
     :return: DotDict: словарь с локализованными текстами
