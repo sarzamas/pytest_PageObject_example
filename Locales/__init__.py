@@ -72,7 +72,6 @@ class Locale(DotDict):
             page.locale = self.get(page.__name__)
 
         print(
-            f"OS Locale:\t{Config(update_file=True).os_language}{linesep}"
-            f"UI Locale:\t{lang}{linesep * 2}{'*' * 80}"
+            f"OS Locale:\t{Config(update_file=True).os_language}{linesep}" f"UI Locale:\t{lang}{linesep * 2}{'*' * 80}"
         )
         self.__write_locale()

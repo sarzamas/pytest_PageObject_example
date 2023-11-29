@@ -61,9 +61,7 @@ class BaseMethods:
         :param val: str: значение ключа в словаре селекторов класса
         :return: key: str: имя ключа
         """
-        prefix = (
-            f"{linesep}{' ! ОШИБКА В СЕЛЕКТОРЕ ! ':*^145}" f"{linesep}* PageObject `{self.__class__.__name__}`: "
-        )
+        prefix = f"{linesep}{' ! ОШИБКА В СЕЛЕКТОРЕ ! ':*^145}" f"{linesep}* PageObject `{self.__class__.__name__}`: "
         if not isinstance(val, str):
             raise TypeError(
                 f"{prefix}При вызове метода задано значение `{val}` для поиска имени селектора в словаре: "
