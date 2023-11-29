@@ -1,4 +1,4 @@
-import os
+from os import linesep, path
 from time import sleep
 from typing import Optional
 
@@ -62,12 +62,12 @@ class BaseMethods:
         :return: key: str: имя ключа
         """
         prefix = (
-            f"{os.linesep}{' ! ОШИБКА В СЕЛЕКТОРЕ ! ':*^145}" f"{os.linesep}* PageObject `{self.__class__.__name__}`: "
+            f"{linesep}{' ! ОШИБКА В СЕЛЕКТОРЕ ! ':*^145}" f"{linesep}* PageObject `{self.__class__.__name__}`: "
         )
         if not isinstance(val, str):
             raise TypeError(
                 f"{prefix}При вызове метода задано значение `{val}` для поиска имени селектора в словаре: "
-                f"{os.linesep}* {self.SELECTORS.items()}{lookup_report()}"
+                f"{linesep}* {self.SELECTORS.items()}{lookup_report()}"
             )
         if self.locale:
             for key, value in dict(self.SELECTORS | self.locale).items():
@@ -75,7 +75,7 @@ class BaseMethods:
                     return key
         else:
             raise FileExistsError(
-                f"{os.linesep}Файл локализации для требуемого тестом языка `{os.path.relpath(Locales.LOCALES_PATH)}"
+                f"{linesep}Файл локализации для требуемого тестом языка `{path.relpath(Locales.LOCALES_PATH)}"
                 f"/<language>/saymon_<language>.yml` пуст, проверьте содержимое файла!{lookup_report()}"
             )
         raise KeyError(f"{prefix}Ключ для значения `{val}` отсутствует в словаре {self.SELECTORS}{lookup_report()}")
@@ -117,14 +117,14 @@ class BaseMethods:
                 prefix2 = f"-\tне исчез за {value} секунд"
             else:
                 raise NameError(
-                    f"{os.linesep}{' ! ОШИБКА В ПАРАМЕТРЕ ! ':*^145}{os.linesep}* PageObject `{page}`: "
+                    f"{linesep}{' ! ОШИБКА В ПАРАМЕТРЕ ! ':*^145}{linesep}* PageObject `{page}`: "
                     f"Проверьте имена параметров в {kwargs.keys()} - какой-то из них не предусмотрен для обработки "
                     f"вызываемым методом{lookup_report()}"
                 )
 
         return (
-            f"{os.linesep}{' ! ОШИБКА В ЛОКАТОРЕ ! ':*^145}{os.linesep}* PageObject `{page}` по адресу "
-            f"{self.__driver.current_url}{os.linesep}*\tWebElement:\t`{params['name']}`\t"
+            f"{linesep}{' ! ОШИБКА В ЛОКАТОРЕ ! ':*^145}{linesep}* PageObject `{page}` по адресу "
+            f"{self.__driver.current_url}{linesep}*\tWebElement:\t`{params['name']}`\t"
             f"{prefix1}:\t`{kwargs[params['param']]}`\t{prefix2} !{lookup_report()}"
         )
 
@@ -316,7 +316,7 @@ class BaseMethods:
             message
             if message
             else (
-                f"{os.linesep}INFO:\tОжидание страницы по адресу {self.__driver.current_url}"
+                f"{linesep}INFO:\tОжидание страницы по адресу {self.__driver.current_url}"
                 f" с PageTitle: `{contains_text}` превысило отведенное время: {timeout} сек"
             )
         )
@@ -354,9 +354,9 @@ class BaseMethods:
         result: Optional[bool] = None
         if all([enabled, disabled]) or all([not enabled, not disabled]):
             raise LookupError(
-                f"{os.linesep}* PageObject: `{self.__class__.__name__}`: "
+                f"{linesep}* PageObject: `{self.__class__.__name__}`: "
                 f"Вызываемый метод предусматривает обязательное наличие на входе ОДНОГО и только ОДНОГО правила "
-                f"валидации.{os.linesep}* Получено же в параметрах вызова: (enabled={enabled}, disabled={disabled})"
+                f"валидации.{linesep}* Получено же в параметрах вызова: (enabled={enabled}, disabled={disabled})"
                 f"{lookup_report()}"
             )
         if enabled:

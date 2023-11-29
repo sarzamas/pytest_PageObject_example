@@ -1,9 +1,8 @@
 import json
-import os
-
 import yaml
 
 from Config import Config
+from os import linesep, path
 from PageObject.BaseMethods import BaseMethods
 from Utils import LOCALES_PATH, lookup_report, read_locale_file
 from Utils.DotDict import DotDict
@@ -28,8 +27,8 @@ class Locale(DotDict):
         """
         Метод записывает содержимое locale, определяющей локализацию текущей сессии в JSON и YAML файлы
         """
-        json_path = os.path.join(LOCALES_PATH, "locale_backup.json")
-        yaml_path = os.path.join(LOCALES_PATH, "locale_backup.yaml")
+        json_path = path.join(LOCALES_PATH, "locale_backup.json")
+        yaml_path = path.join(LOCALES_PATH, "locale_backup.yaml")
         with open(json_path, 'w', encoding='UTF-8') as file:
             file.write(json.dumps(self, indent=4, sort_keys=True, ensure_ascii=False))
         with open(yaml_path, 'w', encoding='UTF-8') as file:
@@ -40,8 +39,8 @@ class Locale(DotDict):
         Метод обновления locale в объектах PageObject
         """
         prefix = (
-            f"{os.linesep}{'*' * 145}{os.linesep}* В файле локализации "
-            f"{os.path.relpath(os.path.join(LOCALES_PATH, lang, f'saymon_{lang}.yaml'))} "
+            f"{linesep}{'*' * 145}{linesep}* В файле локализации "
+            f"{path.relpath(path.join(LOCALES_PATH, lang, f'saymon_{lang}.yaml'))} "
         )
         if len(self.items()) == 0:
             prefix = f"{prefix}отсутствуют данные или используется неизвестный tag: импорт данных заблокирован"
@@ -51,9 +50,9 @@ class Locale(DotDict):
         page_objects = list(BaseMethods.get_all_subclasses())
         if not any(self.get(page.__name__) for page in page_objects):
             prefix = (
-                f"{prefix}обнаружен  !tag:{os.linesep}*\tПри отсутствии флага разрешения использования тэгов в "
+                f"{prefix}обнаружен  !tag:{linesep}*\tПри отсутствии флага разрешения использования тэгов в "
                 f"файле конфигурации {Config().config_path} - импорт данных локализации заблокирован "
-                f"{os.linesep}{'*' * 145}{os.linesep}*\t!!!ВНИМАНИЕ!!! - потенциальная уязвимость -\t"
+                f"{linesep}{'*' * 145}{linesep}*\t!!!ВНИМАНИЕ!!! - потенциальная уязвимость -\t"
                 f"Устанавливайте флаг разрешения тэгов только при доверии к источнику файлов локализации!"
             )
             print(prefix, end='')
@@ -72,7 +71,7 @@ class Locale(DotDict):
             page.locale = self.get(page.__name__)
 
         print(
-            f"OS Locale:\t{Config(update_file=True).os_language}{os.linesep}"
-            f"UI Locale:\t{lang}{os.linesep * 2}{'*' * 80}"
+            f"OS Locale:\t{Config(update_file=True).os_language}{linesep}"
+            f"UI Locale:\t{lang}{linesep * 2}{'*' * 80}"
         )
         self.__write_locale()

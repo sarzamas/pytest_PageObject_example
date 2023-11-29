@@ -2,14 +2,14 @@ import ctypes
 import inspect
 import json
 import locale
-import os
+from os import curdir, getenv, linesep, listdir, name, path, remove, rmdir
 from typing import Optional
 
 import yaml
 
-PROJECT_PATH = os.path.split(os.path.dirname(__file__))[0]
-TMP_PATH = os.path.join(PROJECT_PATH, 'share')
-LOCALES_PATH = os.path.join(PROJECT_PATH, 'Locales')
+PROJECT_PATH = path.split(path.dirname(__file__))[0]
+TMP_PATH = path.join(PROJECT_PATH, 'share')
+LOCALES_PATH = path.join(PROJECT_PATH, 'Locales')
 for path in (TMP_PATH,):
     pass  # os.mkdir(path) if not os.path.exists(path) else None
 
@@ -29,14 +29,14 @@ def os_locale() -> str:
     Функция определения языка и типа ОС
     :return: lang: str
     """
-    if os.name == 'posix':
-        lang = os.getenv('LANG')[:2]
-    elif os.name == 'windows':
+    if name == 'posix':
+        lang = getenv('LANG')[:2]
+    elif name == 'windows':
         windll = ctypes.windll.kernel32
         lang = locale.windows_locale[windll.GetUserDefaultUILanguage()][:2]
     else:
         raise NotImplementedError("Неизвестная ОС")
-    print(f"{os.linesep}{'*' * 80}{os.linesep * 2}OS type:\t{os.name}")
+    print(f"{linesep}{'*' * 80}{linesep * 2}OS type:\t{name}")
     return lang
 
 
@@ -53,16 +53,16 @@ def read_locale_file(lang: property | str, allow_tags: Optional[property | bool]
         locale_file_path = None
         file_name = f"saymon_{lang}"
         for ext in ['yml', 'yaml']:
-            if os.path.exists(os.path.join(LOCALES_PATH, lang, f"{file_name}.{ext}")):
+            if path.exists(path.join(LOCALES_PATH, lang, f"{file_name}.{ext}")):
                 file_name = f"{file_name}.{ext}"
-                locale_file_path = os.path.join(LOCALES_PATH, lang, file_name)
+                locale_file_path = path.join(LOCALES_PATH, lang, file_name)
         if locale_file_path:
             locale_data = read_file(locale_file_path, 'yaml', yaml_tags=allow_tags)
         else:
             prefix = (
-                f"{os.linesep}\t* Отсутствует файл локализации текстов для языка `{lang}`{os.linesep}\t* "
+                f"{linesep}\t* Отсутствует файл локализации текстов для языка `{lang}`{linesep}\t* "
                 f"Поместите файл `{file_name}.yaml` по следующему пути в проекте: "
-                f"{os.path.relpath(os.path.join(LOCALES_PATH, lang, f'{file_name}.yaml'), start=os.curdir)}"
+                f"{path.relpath(path.join(LOCALES_PATH, lang, f'{file_name}.yaml'), start=curdir)}"
             )
             print(prefix)
             raise FileNotFoundError(prefix, lookup_report())
@@ -95,21 +95,21 @@ def remove_local_dir(dir_path: str | bytes) -> None:
         - если такой путь не существует, ошибка не генерируется
     :param dir_path: абсолютный путь к директории
     """
-    if os.path.exists(dir_path):
-        listdir = os.listdir(dir_path)
+    if path.exists(dir_path):
+        lsdir = listdir(dir_path)
 
-        if not listdir:
-            os.rmdir(dir_path)
+        if not lsdir:
+            rmdir(dir_path)
             return
 
-        for elem in listdir:
-            abs_path = os.path.join(dir_path, elem)
+        for elem in lsdir:
+            abs_path = path.join(dir_path, elem)
             try:
-                os.remove(abs_path)  # remove file
+                remove(abs_path)  # remove file
             except (IsADirectoryError, PermissionError):
                 remove_local_dir(abs_path)  # recursive call
 
-        os.rmdir(dir_path)  # remove directory
+        rmdir(dir_path)  # remove directory
 
 
 def lookup_report() -> str:
@@ -136,24 +136,24 @@ def lookup_report() -> str:
     lookup = {}
     for item, source in trace_source.items():
         lookup[item + '_name'] = source[3]
-        lookup[item + '_file_path'] = os.path.relpath(source[1], start=os.curdir)
+        lookup[item + '_file_path'] = path.relpath(source[1], start=curdir)
         lookup[item + '_line_nbr'] = source[2]
         lookup[item + '_line_text'] = source[4][0]
 
     report = (
-        f"{os.linesep}{' ! ДАННЫЕ ОБ ОШИБКЕ ! ':*^145}{os.linesep}"
+        f"{linesep}{' ! ДАННЫЕ ОБ ОШИБКЕ ! ':*^145}{linesep}"
         f"* Вызываемый (Current Method):{'\t' * 3}`{lookup['called_name']}`\tв\t{lookup['called_file_path']}:"
-        f"{lookup['called_line_nbr']}{os.linesep}*\tСтрока с ошибкой:\t{lookup['called_line_nbr']}"
-        f"{lookup['called_line_text']}{'*' * 145}{os.linesep}"
+        f"{lookup['called_line_nbr']}{linesep}*\tСтрока с ошибкой:\t{lookup['called_line_nbr']}"
+        f"{lookup['called_line_text']}{'*' * 145}{linesep}"
         f"* Вызывающий (Caller Method):{'\t' * 3}`{lookup['caller_name']}`\tиз\t{lookup['caller_file_path']}:"
-        f"{lookup['caller_line_nbr']}{os.linesep}*\t Строка вызова:{'\t' * 2}{lookup['caller_line_nbr']}"
-        f"{lookup['caller_line_text']}{'*' * 145}{os.linesep}"
+        f"{lookup['caller_line_nbr']}{linesep}*\t Строка вызова:{'\t' * 2}{lookup['caller_line_nbr']}"
+        f"{lookup['caller_line_text']}{'*' * 145}{linesep}"
         f"* Вызывающий-1 (Predecessor Method):\t`{lookup['caller-1_name']}`\tиз\t{lookup['caller-1_file_path']}:"
-        f"{lookup['caller-1_line_nbr']}{os.linesep}*\t Строка вызова:{'\t' * 2}{lookup['caller-1_line_nbr']}"
-        f"{lookup['caller-1_line_text']}{'*' * 145}{os.linesep}"
+        f"{lookup['caller-1_line_nbr']}{linesep}*\t Строка вызова:{'\t' * 2}{lookup['caller-1_line_nbr']}"
+        f"{lookup['caller-1_line_text']}{'*' * 145}{linesep}"
         f"* Вызывающий-2 (Forerunner Method):\t\t`{lookup['caller-2_name']}`\tиз\t{lookup['caller-2_file_path']}:"
-        f"{lookup['caller-2_line_nbr']}{os.linesep}*\t Строка вызова:{'\t' * 2}{lookup['caller-2_line_nbr']}"
-        f"{lookup['caller-2_line_text']}{'*' * 145}{os.linesep}"
+        f"{lookup['caller-2_line_nbr']}{linesep}*\t Строка вызова:{'\t' * 2}{lookup['caller-2_line_nbr']}"
+        f"{lookup['caller-2_line_text']}{'*' * 145}{linesep}"
     )
 
     print(report, end='')

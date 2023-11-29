@@ -1,4 +1,4 @@
-import os
+from os import linesep
 
 from Utils import lookup_report
 
@@ -19,7 +19,7 @@ class DotDict(dict):
                 self[key] = value
         else:
             prefix = (
-                f"{os.linesep}{'*' * 145}{os.linesep}* На входе Инициализатора класса DotDict: '{ddict}':\t"
+                f"{linesep}{'*' * 145}{linesep}* На входе Инициализатора класса DotDict: '{ddict}':\t"
                 f"Проверьте содержимое источника данных (файла)"
             )
             print(prefix, end='')

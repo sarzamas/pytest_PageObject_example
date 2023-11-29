@@ -1,4 +1,4 @@
-import os
+from os import linesep
 from time import sleep
 
 from selenium.common.exceptions import (
@@ -157,7 +157,7 @@ class WebBase:
             WebDriverWait(self.driver, timeout=MAX_TIMEOUT).until(
                 _interactive_ready_state,
                 message=f"ERROR:\tСтраница с PageTitle: `{self.driver.title}` "
-                f"не загрузилась за {MAX_TIMEOUT} сек{os.linesep}",
+                f"не загрузилась за {MAX_TIMEOUT} сек{linesep}",
             )
 
         except (NoSuchWindowException, UnexpectedAlertPresentException, WebDriverException, TypeError):
