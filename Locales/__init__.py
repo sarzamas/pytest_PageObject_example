@@ -1,8 +1,9 @@
 import json
+from os import linesep, path
+
 import yaml
 
 from Config import Config
-from os import linesep, path
 from PageObject.BaseMethods import BaseMethods
 from Utils import LOCALES_PATH, lookup_report, read_locale_file
 from Utils.DotDict import DotDict
