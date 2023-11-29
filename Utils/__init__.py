@@ -10,8 +10,8 @@ import yaml
 PROJECT_PATH = path.split(path.dirname(__file__))[0]
 TMP_PATH = path.join(PROJECT_PATH, 'share')
 LOCALES_PATH = path.join(PROJECT_PATH, 'Locales')
-for path in (TMP_PATH,):
-    pass  # os.mkdir(path) if not os.path.exists(path) else None
+for _ in (TMP_PATH,):
+    pass  # mkdir(_) if not path.exists(_) else None
 
 
 def get_props(class_name) -> list:
