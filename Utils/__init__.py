@@ -3,10 +3,11 @@ import inspect
 import json
 import locale
 from os import curdir, getenv, linesep, listdir, name, path, remove, rmdir
-from typing import Optional
+from typing import Literal, Optional
 
 import yaml
 
+Decode = Literal['yaml', 'json']
 PROJECT_PATH = path.split(path.dirname(__file__))[0]
 TMP_PATH = path.join(PROJECT_PATH, 'share')
 LOCALES_PATH = path.join(PROJECT_PATH, 'Locales')
@@ -69,22 +70,24 @@ def read_locale_file(lang: property | str, allow_tags: Optional[property | bool]
     return locale_data
 
 
-def read_file(file_path: str, decoder: str, yaml_tags: Optional[bool] = None) -> dict:
+def read_file(file_path: path, decoder: Decode = 'yaml', yaml_tags: Optional[bool] = None, params: dict = None) -> dict:
     """
-    Функция чтения данных их файла в словарь
-    :param file_path: str: путь к файлу на диске
-    :param decoder: тип декодера (расширение файла)
+    Функция чтения данных из файла в словарь
+    :param file_path: path: путь к файлу на диске
+    :param decoder: Decode: тип декодера (расширение файла)
     :param yaml_tags: bool: запрет/разрешение наличия tags в yaml файле (потенциальная уязвимость)
-    :return: dict: data словарь с данными из файла
+    :param params: dict: словарь для подстановки значений для переменных вида {param1}...{paramN} в файле .yaml
+    :return: data: dict: словарь с данными из файла
     """
     with open(file_path, "rt", encoding="utf-8") as file:
         if decoder == 'yaml':
+            file_content = file.read().format(**params) if params else file.read()
             loader = yaml.Loader if yaml_tags else yaml.BaseLoader
-            data = yaml.load(file, Loader=loader)
+            data = yaml.load(file_content, Loader=loader)
         elif decoder == 'json':
             data = json.load(file)
         else:
-            raise NotImplementedError(f"Декодер `{decoder}` не реализован!")
+            raise NotImplementedError(decoder)
     return data
 
 
